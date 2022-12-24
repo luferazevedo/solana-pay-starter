@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "name": "Eu mesmo",
+    "price": "0.99",
+    "description": "Não vale 1 real",
+    "image_url": "https://i.imgur.com/rVD8bjt.png",
+    "filename": "putaimagem.zip",
+    "hash": "QmZbXskwtsLQ1C5YiFrr5vNm4hr4yBAfWCRpD4MN5RgzhN"
+  },
+  {
+    "id": 2,
+    "name": "Almofada",
+    "price": "0.11",
+    "image_url": "",
+    "description": "almofada de criança"
+  },
+  {
+    "id": 3,
+    "name": "Almofada",
+    "price": "0.11",
+    "image_url": "",
+    "description": "almofada de criança"
+  }
+]

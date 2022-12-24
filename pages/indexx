@@ -1,0 +1,76 @@
+import React, { useEffect, useState } from "react";
+import Product from "../components/Product";
+//import HeadComponent from '../components/Head'; //alteração do código inicial
+
+import { PublicKey } from '@solana/web3.js';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+
+// Constantes
+const TWITTER_HANDLE = "saudeperfeitasempre";
+const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
+
+const App = () => {
+  // Tudo que tem aqui não tinha no código inicial
+  // Isso buscará a chave pública dos usuários (endereço da carteira) de qualquer carteira que suportamos
+  const { publicKey } = useWallet(); // o hook useWallet() nos dará o endereço dos usuários conectados em qualquer lugar do aplicativo. ele se inscreve nos provedores que configuramos em app.js
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    if (publicKey) {
+      fetch(`/api/fetchProducts`)
+        .then(response => response.json())
+        .then(data => {
+          setProducts(data);
+          console.log("Products", data);
+        });
+    }
+  }, [publicKey]);
+
+  const renderNotConnectedContainer = () => (
+    <div className="button-container">
+      <WalletMultiButton className="cta-button connect-wallet-button" />
+    </div>
+  );
+
+
+  const renderItemBuyContainer = () => (
+    <div className="products-container">
+      {products.map((product) => (
+        <Product key={product.id} product={product} />
+      ))}
+    </div>
+  );
+  
+  return (
+    <div className="App">
+      {/*<HeadComponent/>*/}
+      <div className="container">
+        <header className="header-container">
+          <p className="header"> 🧠 Práticas de saude e bem-estar 💪 </p>
+          <p className="sub-text">A única loja artigos práticos de saude que aceita shitcoins</p>
+        </header>
+
+        <main>
+          {/* Nós só renderizamos o botão de conexão se a chave pública não existir */}
+          {publicKey ? renderItemBuyContainer() : renderNotConnectedContainer()}
+
+          {/*<img className='gif-image' src="https://media.tenor.com/1mJ-tJSzvwsAAAAd/solana-sol.gif" alt="emoji" /> //alteração de código inicial*/}
+          {/*<img className='gif-image' src="https://media.tenor.com/luPX8VOFfXUAAAAM/christmas-holidays.gif" alt="emoji" /> //alteração de código inicial*/}
+        </main>
+
+        <div className="footer-container">
+          <img alt="Twitter Logo" className="twitter-logo" src="twitter-logo.svg" />
+          <a
+            className="footer-text"
+            href={TWITTER_LINK}
+            target="_blank"
+            rel="noreferrer"
+          >{`contruido na @${TWITTER_HANDLE}`}</a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;
